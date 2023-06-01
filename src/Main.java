@@ -9,13 +9,82 @@
  *
  *
  */
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.IOException;
+import java.util.logging.ErrorManager;
 
 public class Main {
-    public static void main(String[] args) {
+
+    private static Scanner entrada;
+    private static Pokemon allPokemon[];
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+
+
+        allPokemon=iniciadorObjetos();
+
+        Entrenador entrenador = comenzar();
+
+
+        entrenador.capturarPokemon(elegirInicial());
+
+
+        entrada=new Scanner(System.in);
+        byte menu=-1;
+
+        do{
+
+            System.out.println("* --- MENÚ --- *");
+            System.out.println(" 1. Buscar Pókemon");
+            System.out.println(" 2. Ver equipo");
+            System.out.println(" 3. Ver Pokédex");
+            System.out.println(" 4. Salir");
+            System.out.println("* ------------ *");
+
+
+            System.out.println("->\t");
+            try {
+                menu=Byte.parseByte(entrada.nextLine());
+            }catch (Exception e){
+                menu=-1;
+            }
 
 
 
+
+            switch (menu) {
+
+                case 1:
+
+                break;
+                case 2:
+
+                break;
+                case 3:
+
+                break;
+
+                case 4:
+                    System.out.println("No se guardará nada ¿Seguro que quieres salir?\n Escriba 'N' para cancelar:\n\t");
+                    if (entrada.nextLine().toUpperCase().equals("N")){
+                        menu=-0;
+                    }
+
+                break;
+
+                default:
+                    System.out.println("Error: Opción incorrecta");
+            }
+
+
+        }while (menu!=4);
+
+    }
+
+
+    public static Pokemon[] iniciadorObjetos(){
         // Pokémon
         Pokemon bulbasaur = new Pokemon(1,"Bulbasaur",tipos.Planta, null,9, 25, 150);
         Pokemon ivysaur = new Pokemon(2,"Ivysaur",tipos.Planta,null,15, 155, 200);
@@ -88,43 +157,74 @@ public class Main {
         blastoise.anadirMovimiento(hidropulso);
         blastoise.anadirMovimiento(hidrobomba);
 
-        System.out.println(blastoise.toString());
 
+        return new Pokemon[]{bulbasaur, ivysaur, venusaur, charmander, charmeleon, charizard, squirtle, wartortle, blastoise};
+    }
 
+    public static Entrenador comenzar(){
 
+        System.out.println("Digame su nombre para empezar: ");
+        String nombre=entrada.nextLine();
 
+        Pokedex pokedex = new Pokedex(1);
+        Entrenador entrenador = new Entrenador(0, nombre.trim(), pokedex);
 
+        System.out.println("\n\n\n\nBievenida/o "+entrenador.getNombre()+"! \n ");
 
-        Scanner entrada = new Scanner(System.in);
-        byte menu=-1;
+        return entrenador;
+    }
 
-        do{
+    public static Pokemon elegirInicial (){
 
-            System.out.println("->\t");
-            menu=Byte.parseByte(entrada.next());
+        boolean done=false;
+        byte numEleccion=0, menu=0;
 
+        Pokemon[] pokemonIniciales = new Pokemon[]{allPokemon[0],allPokemon[3],allPokemon[6]};
 
+        do {
+            System.out.println("Debe elegir entre uno de los siguientes Pokémon: ");
 
-            switch (menu) {
-
-                case 1:
-
-                break;
-                case 2:
-
-                break;
-                case 3:
-
-                break;
-
-                default:
+            for (int i = 0; i < pokemonIniciales.length; i++) {
+                System.out.println("\t"+(i+1)+". "+pokemonIniciales[i].getNombre());
             }
 
 
+            do {
+                try {
+                    System.out.println("->");
+                    numEleccion=Byte.parseByte(entrada.nextLine());
+                }catch (Exception e){
+                    System.out.println("Error: Opción incorrecta");
+                    numEleccion=-1;
+                }
+            }while (numEleccion<1||numEleccion>3);
 
-        }while (menu!=0);
+            System.out.println("Has elegido a"+ pokemonIniciales[numEleccion].getNombre()+" como tu inicial, n podrás cambiarlo luego. \n¿Estás seguro?");
 
+            System.out.println("1. Sí");
+            System.out.println("2. Mostrar más información");
+            System.out.println("3. No");
+
+
+            try {
+                System.out.println("->");
+                menu=Byte.parseByte(entrada.nextLine());
+            }catch (Exception e){
+                System.out.println("Error: Opción incorrecta");
+                menu=-1;
+            }
+
+            if (menu==2){
+                System.out.println(pokemonIniciales[numEleccion].toString());
+            } else if (menu==1) {
+                done=true;
+            }
+
+        }while (!done);
+
+        return pokemonIniciales[numEleccion];
 
     }
+
 
 }

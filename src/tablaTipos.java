@@ -1,4 +1,4 @@
-public enum tablaTipos {
+public  enum  tablaTipos {
     Agua(
             //superEficaz
             new tipos[]{tipos.Fuego},
@@ -15,35 +15,61 @@ public enum tablaTipos {
             //nulo
             new tipos[]{}
     ),
-    Planta(
+     Planta(
             //superEficaz
             new tipos[]{tipos.Agua},
             //pocoEficaz
             new tipos[]{tipos.Fuego},
             //nulo
             new tipos[]{}
+    ),
+    Normal(
+            //superEficaz
+            new tipos[]{},
+            //pocoEficaz
+            new tipos[]{},
+            //nulo
+            new tipos[]{}
     );
+
     private  tipos[] superEficaz;
     private tipos[] pocoEficaz;
     private tipos[] nulo;
 
     private tablaTipos (tipos[] superEficaz, tipos[] pocoEficaz, tipos[] nulo ){
-        this.superEficaz= superEficaz;
+        this.superEficaz=superEficaz;
         this.pocoEficaz=pocoEficaz;
         this.nulo=nulo;
     }
 
-    public tipos[] getSuperEficaz(){
-        return this.superEficaz;
+    public boolean contieneSuperEficaz(tipos tipo){
+
+        for (tipos tipoEnLista: superEficaz) {
+            if (tipoEnLista==tipo){
+                return true;
+            }
+        }
+        return false;
     }
 
-    public tipos[] pocoEficaz(){
-        return this.pocoEficaz;
+    public boolean contieneNulo(tipos tipo){
+
+        for (tipos tipoEnLista: nulo) {
+            if (tipoEnLista==tipo){
+                return true;
+            }
+        }
+        return false;
     }
 
-    public tipos[] nulo(){
-        return this.nulo;
-    }
+    public boolean contienePocoEficaz(tipos tipo){
 
+        for (tipos tipoEnLista: pocoEficaz) {
+            if (tipoEnLista==tipo){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

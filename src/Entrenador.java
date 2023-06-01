@@ -4,7 +4,7 @@
  * @version v0.2
  *
  * CLase Entrandor. Tiene asociada una Pokedex y tiene un equipo de Pókemon
- *
+ * @// TODO: 11/05/2023 Faltan objetos para currar, atrapar, idk... faltan tantas cosas que me da hasta vergÜenza
  */
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,8 +12,15 @@ import java.util.Scanner;
 public class Entrenador {
     private int id;
     private String nombre;
-    private ArrayList<Pokemon> equipo = new ArrayList<>();
+    private ArrayList<Pokemon> equipo;
     private Pokedex pokedex;
+
+    public Entrenador(int id, String nombre, Pokedex pokedex) {
+        this.id = id;
+        this.nombre = nombre;
+        this.equipo  = new ArrayList<>();
+        this.pokedex = pokedex;
+    }
 
     /**
      * @param pokemonCaprurado

@@ -3,4 +3,5 @@ public enum tipos {
     Fuego,
     Planta,
     Normal
+
 }

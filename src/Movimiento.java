@@ -42,10 +42,13 @@ public class Movimiento {
         return precision;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
 
     @Override
     public String toString() {
-        return "Movimiento: " + nombre  +
+        return "Nombre: " + nombre  +
                 "\nTipo" + tipo +
                 ", PP " + pp +
                 ", Potencia " + potencia +
