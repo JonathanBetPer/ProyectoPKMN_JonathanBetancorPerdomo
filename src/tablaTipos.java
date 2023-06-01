@@ -3,7 +3,7 @@ public enum tablaTipos {
             //superEficaz
             new tipos[]{tipos.Fuego},
             //pocoEficaz
-            new tipos[]{},
+            new tipos[]{tipos.Planta},
             //nulo
             new tipos[]{}
     ),
@@ -11,7 +11,7 @@ public enum tablaTipos {
             //superEficaz
             new tipos[]{tipos.Planta},
             //pocoEficaz
-            new tipos[]{},
+            new tipos[]{tipos.Agua},
             //nulo
             new tipos[]{}
     ),
@@ -19,11 +19,10 @@ public enum tablaTipos {
             //superEficaz
             new tipos[]{tipos.Agua},
             //pocoEficaz
-            new tipos[]{},
+            new tipos[]{tipos.Fuego},
             //nulo
             new tipos[]{}
     );
-
     private  tipos[] superEficaz;
     private tipos[] pocoEficaz;
     private tipos[] nulo;

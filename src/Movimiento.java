@@ -7,18 +7,49 @@
  *
  * @// TODO: 11/05/2023 Efecto de estado.
  * @// TODO: 11/05/2023 Hacer clase abstracta. Derivar movimiento físico, y movimiento especial
+ * @// TODO: 11/05/2023 Falta crear un atributo más para limitar lás veces que se puede usar un ataque
  *
  */
 public class Movimiento {
     private String nombre;
     private tipos tipo;
-    private byte pp;
+    private int pp;
     private int potencia;
-    private float precision;
+    private int precision;
 
 
-    public Movimiento( String nombre, tipos tipo, byte pp, int potencia, float precision) {
+    public Movimiento( String nombre, tipos tipo, int pp, int potencia, int precision) {
         this.nombre=nombre;
         this.tipo=tipo;
+        this.pp=pp;
+        this.potencia=potencia;
+        this.precision=precision;
+    }
+
+    public tipos getTipo() {
+        return tipo;
+    }
+
+    public int getPp() {
+        return pp;
+    }
+
+    public int getPotencia() {
+        return potencia;
+    }
+
+    public double getPrecision() {
+        return precision;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Movimiento: " + nombre  +
+                "\nTipo" + tipo +
+                ", PP " + pp +
+                ", Potencia " + potencia +
+                ", Precisión " + precision;
     }
 }
+
