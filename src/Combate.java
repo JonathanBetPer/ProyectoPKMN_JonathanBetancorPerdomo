@@ -3,7 +3,7 @@ import java.util.Scanner;
 /**
  * @author Jonathan Betancor Perdomo
  * @since 01/06/2023
- * @version v0.5
+ * @version v0.8
  *
  * Clase Combate. Permite que dos Pokémon se taquen hasta que uno de los dos llegue a 0 HP.
  *
@@ -12,6 +12,7 @@ import java.util.Scanner;
  */
 public class Combate {
 
+    private boolean turno;
     private Entrenador entrenador;
     private Pokemon pokemon;
     private Pokemon pokemonEnemigo;
@@ -19,6 +20,7 @@ public class Combate {
 
 
     public Combate(Entrenador entrenador, Pokemon[] pokemonEnemigos) {
+        this.turno=true;
         this.entrenador=entrenador;
         this.pokemonEnemigos = pokemonEnemigos;
     }
@@ -28,20 +30,24 @@ public class Combate {
         Random rmNum = new Random();
         Scanner entrada = new Scanner(System.in);
         byte numAtaque = 0;
-        boolean turno=true;
         int danio=0;
 
 
         pokemon = entrenador.elegirPokemonEquipo();
 
-        pokemonEnemigo=pokemonEnemigos[rmNum.nextInt(pokemonEnemigos.length+1)];
+        pokemonEnemigo=pokemonEnemigos[rmNum.nextInt(pokemonEnemigos.length)];
+
 
         Scanner sc=new Scanner(System.in);
 
         System.out.println(pokemon.getNombre() + " vs. " + pokemonEnemigo.getNombre());
         while (pokemon.getHp() > 0 && pokemonEnemigo.getHp() > 0) {
 
-            if (turno){
+
+            System.out.println(pokemon.getNombre() + " tiene " + pokemon.getHp() + " HP");
+            System.out.println(pokemonEnemigo.getNombre() + " tiene " + pokemonEnemigo.getHp() + " HP");
+
+            if (this.turno){
 
                 System.out.println("¡Es tu turno, " + entrenador.getNombre() + "!");
 
@@ -56,11 +62,11 @@ public class Combate {
                         numAtaque = -1;
                         System.out.println("Número incorrecto");
                     }
-                }while (numAtaque!=-1);
+                }while ((numAtaque<0||numAtaque>4) && pokemon.getMovimiento((byte) (numAtaque-1))!=null);
 
-                danio=pokemon.getDanioPorMovimiento(pokemon.getMovimiento(numAtaque), pokemonEnemigo);
+                danio=pokemon.getDanioPorMovimiento(pokemon.getMovimiento((byte) (numAtaque-1)), pokemonEnemigo);
 
-                pokemonEnemigo.setHp(danio);
+                pokemonEnemigo.bajarHp(danio);
 
                 System.out.println(pokemon.getNombre() + " a realizado " + pokemon.getMovimiento(numAtaque).getNombre() + " con " + danio + " de daño" );
 
@@ -71,7 +77,7 @@ public class Combate {
 
                 danio=pokemonEnemigo.getDanioPorMovimiento(pokemonEnemigo.getMovimiento(numAtaque), pokemon);
 
-                pokemon.setHp(danio);
+                pokemon.bajarHp(danio);
 
                 System.out.println(pokemonEnemigo.getNombre() + " a realizado " + pokemonEnemigo.getMovimiento(numAtaque).getNombre() + " con " + danio + " de daño" );
 
@@ -81,7 +87,7 @@ public class Combate {
         }
 
         if (pokemonEnemigo.getHp()<=0){
-            System.out.println("¡Has ganado!.");
+            System.out.println("¡Has ganado! :D");
             return pokemonEnemigo;
         }else {
             System.out.println("¡Has perdido :_C!");

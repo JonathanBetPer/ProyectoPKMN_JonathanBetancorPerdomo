@@ -1,7 +1,7 @@
 /**
  * @author Jonathan Betancor Perdomo
  * @since 11/05/2023
- * @version v0.5
+ * @version v0.8
  *
  * CLase Pokémon. Criaturas que combaten y cosas así, no sé muy bien como explicarlo
  *
@@ -128,7 +128,11 @@ public class Pokemon {
         StringBuilder resultado= new StringBuilder();
 
         for (int i = 0; i < listaAtaques.length; i++) {
-            resultado.append(i).append(". ").append(listaAtaques[i].toString()).append("\n");
+
+            if (listaAtaques[i]!=null){
+                resultado.append(i).append(". ").append(listaAtaques[i].toString()).append("\n");
+            }
+
         }
         
         return resultado.toString();
@@ -167,13 +171,17 @@ public class Pokemon {
         return listaAtaques[0];
     }
 
-    public void setHp(int hp) {
 
+    public void bajarHp(int hp) {
         if (this.hp-hp>=0){
             this.hp = this.hp-hp;
         }else {
             this.hp=0;
         }
+    }
+
+    public void setHp(int hp) {
+        this.hp=hp;
     }
 
 

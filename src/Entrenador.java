@@ -4,7 +4,7 @@ import java.util.Scanner;
 /**
  * @author Jonathan Betancor Perdomo
  * @since 15/05/2023
- * @version v0.5
+ * @version v0.8
  *
  * CLase Entrandor. Tiene asociada una Pokedex y tiene un equipo de Pókemon
  * @// TODO: 11/05/2023 Faltan objetos para currar, atrapar, idk... faltan tantas cosas que me da hasta vergÜenza
@@ -80,7 +80,9 @@ public class Entrenador {
 
     public void mostrarEquipo(){
         for (int i = 0; i <equipo.size(); i++) {
-            System.out.println((i+1)+". "+equipo.get(i).toString());
+            if (equipo.get(i)!=null){
+                System.out.println((i+1)+". "+equipo.get(i).toString());
+            }
         }
     }
 
@@ -93,21 +95,28 @@ public class Entrenador {
         int numEquipo=-1;
 
         do {
-            System.out.println("Elige un pokemon: ");
+            System.out.print("Elige un Pokémon: ");
 
             try {
-                numEquipo= entrada.nextInt();
+                numEquipo = Integer.parseInt(entrada.next());
             }catch (Exception e){
                 numEquipo=-1;
             }
 
-        }while (numEquipo<0||numEquipo>=equipo.size());
+        }while (numEquipo<0||numEquipo>equipo.size());
 
         return equipo.get(numEquipo-1);
     }
 
-    public Object[] getEquipoVector(){
-        return this.equipo.toArray();
+    public Pokemon[] getEquipoVector(){
+
+        Pokemon[] resultado = new Pokemon[this.equipo.size()];
+
+        for (int i = 0; i < this.equipo.size() ; i++) {
+            resultado[i]=this.equipo.get(i);
+        }
+
+        return resultado;
     }
 
     public String getNombre() {
