@@ -1,6 +1,15 @@
 import java.util.Random;
 import java.util.Scanner;
-
+/**
+ * @author Jonathan Betancor Perdomo
+ * @since 01/06/2023
+ * @version v0.5
+ *
+ * Clase Combate. Permite que dos Pokémon se taquen hasta que uno de los dos llegue a 0 HP.
+ *
+ * // TODO: 02/06/2023 : Añadir funcionalidad de cambiar de Pokémon?
+ *
+ */
 public class Combate {
 
     private Entrenador entrenador;
@@ -14,7 +23,7 @@ public class Combate {
         this.pokemonEnemigos = pokemonEnemigos;
     }
 
-    public void iniciar() {
+    public Pokemon iniciar() {
         //Variables
         Random rmNum = new Random();
         Scanner entrada = new Scanner(System.in);
@@ -23,12 +32,13 @@ public class Combate {
         int danio=0;
 
 
-        pokemon = entrenador.preseleccion();
+        pokemon = entrenador.elegirPokemonEquipo();
 
         pokemonEnemigo=pokemonEnemigos[rmNum.nextInt(pokemonEnemigos.length+1)];
 
         Scanner sc=new Scanner(System.in);
 
+        System.out.println(pokemon.getNombre() + " vs. " + pokemonEnemigo.getNombre());
         while (pokemon.getHp() > 0 && pokemonEnemigo.getHp() > 0) {
 
             if (turno){
@@ -72,9 +82,11 @@ public class Combate {
 
         if (pokemonEnemigo.getHp()<=0){
             System.out.println("¡Has ganado!.");
+            return pokemonEnemigo;
         }else {
             System.out.println("¡Has perdido :_C!");
         }
 
+        return null;
     }
 }

@@ -1,9 +1,7 @@
-import java.util.Arrays;
-
 /**
  * @author Jonathan Betancor Perdomo
  * @since 11/05/2023
- * @version v0.1
+ * @version v0.5
  *
  * CLase Pokémon. Criaturas que combaten y cosas así, no sé muy bien como explicarlo
  *
@@ -23,6 +21,15 @@ public class Pokemon {
     private int pp;
     private final Movimiento[] listaAtaques;
 
+    public Pokemon (int id, String nombre, tipos tipo1, int nivel, int hp, int pp)  {
+        this.id = id;
+        this.nombre = nombre;
+        this.tipo1 = tipo1;
+        this.nivel = nivel;
+        this.hp = hp;
+        this.pp = pp;
+        this.listaAtaques = new Movimiento[4];
+    }
 
     public Pokemon (int id, String nombre, tipos tipo1, tipos tipo2, int nivel, int hp, int pp)  {
 
@@ -178,12 +185,24 @@ public class Pokemon {
 
     @Override
     public String toString() {
-        return "Pokémon: " +
-                " Nombre: " + nombre + '\'' +
-                " Tipo: " + tipo1.name() + tipo2.name() +
+
+        String tipo2cadena = (tipo2 == null) ? " " : tipo2.name();
+
+        StringBuilder salida = new StringBuilder("Pokémon: " +
+                " Nombre: " + nombre +
+                " Tipos: " + tipo1.name() + tipo2cadena +
                 " Nivel: " + nivel +
                 " Vida: " + hp +
                 " PP: " + pp +
-                " Movimientos: " + Arrays.toString(listaAtaques);
+                " \n\tMovimientos:");
+
+        for (Movimiento ataque:listaAtaques) {
+            if (ataque!=null){
+                salida.append(ataque.toString());
+            }
+
+        }
+
+        return salida.toString();
     }
 }

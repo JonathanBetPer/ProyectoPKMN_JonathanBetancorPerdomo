@@ -1,7 +1,7 @@
 /**
  * @author Jonathan Betancor Perdomo
  * @since 11/05/2023
- * @version v0.1
+ * @version v0.5
  *
  * CLase Movimiento. Es un Pokémon son capaces de aprender y que usan en los combates con el fin de debilitar a sus oponentes.
  *
@@ -48,8 +48,8 @@ public class Movimiento {
 
     @Override
     public String toString() {
-        return "Nombre: " + nombre  +
-                "\nTipo" + tipo +
+        return "\n\t\t Nombre: " + nombre  +
+                "Tipo " + tipo +
                 ", PP " + pp +
                 ", Potencia " + potencia +
                 ", Precisión " + precision;

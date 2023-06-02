@@ -1,48 +1,51 @@
-/**
- * @author Jonathan Betancor Perdomo
- * @since 11/05/2023
- * @version v0.1
- *
- * Principal. Programa básado en Pokémon. Opciones de captura, combate....
- *
- * @// TODO: 11/05/2023 Faltan las Stats
- *
- *
- */
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
-import java.util.logging.ErrorManager;
+/**
+ * @author Jonathan Betancor Perdomo
+ * @since 11/05/2023
+ * @version v0.5
+ *
+ * Principal. Programa básado en Pokémon. Opciones de captura, combate....
+ *
+ * // TODO: 02/06/2023 Falta documentar y testear
+ *
+ */
+
 
 public class Main {
 
     private static Scanner entrada;
-    private static Pokemon allPokemon[];
+    private static Pokemon[] allPokemon;
+    private static final ArrayList<Entrenador> listaEntrenadores=new ArrayList<>();
+
+    private static Entrenador entrenadorProtagonista;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-
-
-        allPokemon=iniciadorObjetos();
-
-        Entrenador entrenador = comenzar();
-
-
-        entrenador.capturarPokemon(elegirInicial());
-
-
         entrada=new Scanner(System.in);
-        byte menu=-1;
+        allPokemon = iniciadorObjetos();
+
+        entrenadorProtagonista = comenzar();
+        entrenadorProtagonista.capturarPokemon(elegirInicial());
+
+        menu();
+    }
+
+
+    public static void menu(){
+        byte menu;
 
         do{
 
-            System.out.println("* --- MENÚ --- *");
-            System.out.println(" 1. Buscar Pókemon");
-            System.out.println(" 2. Ver equipo");
-            System.out.println(" 3. Ver Pokédex");
-            System.out.println(" 4. Salir");
-            System.out.println("* ------------ *");
-
+            System.out.println("* ------------ MENÚ ------------ *");
+            System.out.println("  1. Combatir");
+            System.out.println("  2. Ver equipo");
+            System.out.println("  3. Ver Pokédex");
+            System.out.println("  4. Interccambio Pokémon");
+            System.out.println("  5. Añadir nuevo entrenador");
+            System.out.println("  6. Cambiar a otro entrenador");
+            System.out.println("  7. Salir");
+            System.out.println("* ------------------------------ *");
 
             System.out.println("->\t");
             try {
@@ -51,24 +54,38 @@ public class Main {
                 menu=-1;
             }
 
-
-
-
             switch (menu) {
 
                 case 1:
-
+                    nuevoCombate();
                 break;
+
                 case 2:
-
+                    entrenadorProtagonista.mostrarEquipo();
                 break;
-                case 3:
 
+                case 3:
+                    entrenadorProtagonista.mostrarPokedex();
                 break;
 
                 case 4:
+                    entrenadorProtagonista.intercambiar(listaEntrenadores.get(elegirEntrenador()), listaEntrenadores.get(elegirEntrenador()).elegirPokemonEquipo(), entrenadorProtagonista.elegirPokemonEquipo());
+                break;
+
+                case 5:
+                    nuevoEntrenador();
+                break;
+
+                case 6:
+                    cambiarEntrenador(elegirEntrenador());
+                break;
+
+                case 7:
                     System.out.println("No se guardará nada ¿Seguro que quieres salir?\n Escriba 'N' para cancelar:\n\t");
-                    if (entrada.nextLine().toUpperCase().equals("N")){
+                    String comprobacion;
+                    comprobacion=entrada.nextLine().toUpperCase();
+
+                    if (comprobacion.equals("N")){
                         menu=-0;
                     }
 
@@ -77,27 +94,23 @@ public class Main {
                 default:
                     System.out.println("Error: Opción incorrecta");
             }
-
-
-        }while (menu!=4);
-
+        }while (menu!=5);
     }
-
 
     public static Pokemon[] iniciadorObjetos(){
         // Pokémon
-        Pokemon bulbasaur = new Pokemon(1,"Bulbasaur",tipos.Planta, null,9, 25, 150);
-        Pokemon ivysaur = new Pokemon(2,"Ivysaur",tipos.Planta,null,15, 155, 200);
-        Pokemon venusaur = new Pokemon(3,"Venusaur",tipos.Planta,null,25, 255, 245);
+        Pokemon bulbasaur = new Pokemon(1,"Bulbasaur",tipos.Planta,9, 25, 150);
+        Pokemon ivysaur = new Pokemon(2,"Ivysaur",tipos.Planta,15, 155, 200);
+        Pokemon venusaur = new Pokemon(3,"Venusaur",tipos.Planta,25, 255, 245);
 
 
-        Pokemon charmander = new Pokemon(4,"Charmander",tipos.Fuego, null,9, 25, 100);
-        Pokemon charmeleon = new Pokemon(5,"Charmeleon",tipos.Fuego,null,15, 155, 200);
-        Pokemon charizard = new Pokemon(6,"Charizard",tipos.Fuego,null,25, 255, 245);
+        Pokemon charmander = new Pokemon(4,"Charmander",tipos.Fuego,9, 25, 100);
+        Pokemon charmeleon = new Pokemon(5,"Charmeleon",tipos.Fuego,15, 155, 200);
+        Pokemon charizard = new Pokemon(6,"Charizard",tipos.Fuego,25, 255, 245);
 
-        Pokemon squirtle = new Pokemon(7,"Squirtle",tipos.Agua, null,9, 25, 100);
-        Pokemon wartortle = new Pokemon(8,"Wartortle",tipos.Agua,null,15, 155, 200);
-        Pokemon blastoise = new Pokemon(9,"Blastoise",tipos.Agua,null,25, 255, 245);
+        Pokemon squirtle = new Pokemon(7,"Squirtle",tipos.Agua,9, 25, 100);
+        Pokemon wartortle = new Pokemon(8,"Wartortle",tipos.Agua,15, 155, 200);
+        Pokemon blastoise = new Pokemon(9,"Blastoise",tipos.Agua,25, 255, 245);
 
 
         //Movimientos
@@ -158,21 +171,43 @@ public class Main {
         blastoise.anadirMovimiento(hidrobomba);
 
 
-        return new Pokemon[]{bulbasaur, ivysaur, venusaur, charmander, charmeleon, charizard, squirtle, wartortle, blastoise};
+
+
+        Pokemon[] vector = new  Pokemon[]{bulbasaur, ivysaur, venusaur, charmander, charmeleon, charizard, squirtle, wartortle, blastoise};
+
+        //Entrenadores
+
+        Entrenador Red = new Entrenador("Red", new Pokedex());
+
+        for (Pokemon monstruito: vector) {
+            Red.capturarPokemon(monstruito);
+        }
+
+        Entrenador Liko = new Entrenador("Liko", new Pokedex());
+
+        listaEntrenadores.add(Red);
+        listaEntrenadores.add(Liko);
+
+        return vector;
+
     }
+
+
 
     public static Entrenador comenzar(){
 
         System.out.println("Digame su nombre para empezar: ");
         String nombre=entrada.nextLine();
 
-        Pokedex pokedex = new Pokedex(1);
-        Entrenador entrenador = new Entrenador(0, nombre.trim(), pokedex);
+        Pokedex pokedex = new Pokedex();
+        Entrenador entrenador = new Entrenador(nombre.trim(), pokedex);
 
         System.out.println("\n\n\n\nBievenida/o "+entrenador.getNombre()+"! \n ");
 
         return entrenador;
     }
+
+
 
     public static Pokemon elegirInicial (){
 
@@ -227,4 +262,89 @@ public class Main {
     }
 
 
+
+    public static void nuevoEntrenador(){
+
+        Entrenador nuevoEntrnador=comenzar();
+
+        nuevoEntrnador.capturarPokemon(elegirInicial());
+
+        listaEntrenadores.add(nuevoEntrnador);
+
+    }
+
+
+
+    public static void mostrarListaEntrenadores(){
+        for (int i = 0; i < listaEntrenadores.size(); i++) {
+            System.out.println((i + 1) + ". " + listaEntrenadores.get(i));
+        }
+    }
+
+
+
+    public static void cambiarEntrenador(int numero){
+
+        Entrenador auxiliar = entrenadorProtagonista;
+        entrenadorProtagonista=listaEntrenadores.get(numero);
+        listaEntrenadores.add(numero, auxiliar);
+    }
+
+
+
+    public static int elegirEntrenador(){
+        byte numEntrenador;
+        mostrarListaEntrenadores();
+
+        System.out.println("Elija el entrenador\n\t-> ");
+
+        do {
+            try {
+                numEntrenador = Byte.parseByte(entrada.nextLine());
+            } catch (Exception e) {
+                numEntrenador = -1;
+                System.out.println("Error: Opción incorrecta, vuelva a introducir un número \n ");
+            }
+        }while (numEntrenador<0||numEntrenador>listaEntrenadores.size());
+
+        return numEntrenador;
+    }
+
+
+
+    public static void nuevoCombate(){
+
+        byte combateOpcion, eleccionEntrenador;
+
+        Combate combate1;
+        System.out.println("\t1. Combate contra entrenador");
+        System.out.println("\t2. Combate contra Pokémon salvaje");
+        System.out.println("->\t\t");
+
+        try {
+            combateOpcion=Byte.parseByte(entrada.nextLine());
+        }catch (Exception e){
+            combateOpcion=-1;
+        }
+
+        switch (combateOpcion) {
+            case 1 -> {
+
+
+                mostrarListaEntrenadores();
+
+                eleccionEntrenador = (byte) elegirEntrenador();
+
+                combate1 = new Combate(entrenadorProtagonista, (Pokemon[]) listaEntrenadores.get(eleccionEntrenador - 1).getEquipoVector());
+
+                combate1.iniciar();
+
+            }
+            case 2 -> {
+                combate1 = new Combate(entrenadorProtagonista, allPokemon);
+                combate1.iniciar();
+            }
+            default -> System.out.println("Error: Opción incorrecta");
+        }
+    }
 }

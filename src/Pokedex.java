@@ -1,20 +1,27 @@
+import java.util.ArrayList;
 /**
  * @author Jonathan Betancor Perdomo
  * @since 15/05/2023
- * @version v0.2
+ * @version v0.5
  *
  * CLase Pokedex. Contiene información de los Pokémon vistos y atrapados
  *
  */
-import java.util.ArrayList;
+
 
 public class Pokedex {
     private int id;
+    private static int actualID=0;
     private ArrayList<Pokemon> registro = new ArrayList<>();
 
-    public Pokedex(int id) {
-        this.id = id;
+    public Pokedex() {
+        this.id = actualID;
+        incrementarActualID();
     }
+    private void incrementarActualID(){
+        actualID++;
+    }
+
 
     public void registrarPokemon(Pokemon PokemonNuevo){
         registro.add(PokemonNuevo);
