@@ -41,13 +41,13 @@ public class Main {
             System.out.println("  1. Combatir");
             System.out.println("  2. Ver equipo");
             System.out.println("  3. Ver Pokédex");
-            System.out.println("  4. Interccambio Pokémon");
+            System.out.println("  4. Intercambio Pokémon");
             System.out.println("  5. Añadir nuevo entrenador");
             System.out.println("  6. Cambiar a otro entrenador");
             System.out.println("  7. Salir");
             System.out.println("* ------------------------------ *");
 
-            System.out.println("->\t");
+            System.out.print("->\t");
             try {
                 menu=Byte.parseByte(entrada.nextLine());
             }catch (Exception e){
@@ -69,7 +69,7 @@ public class Main {
                 break;
 
                 case 4:
-                    entrenadorProtagonista.intercambiar(listaEntrenadores.get(elegirEntrenador()), listaEntrenadores.get(elegirEntrenador()).elegirPokemonEquipo(), entrenadorProtagonista.elegirPokemonEquipo());
+                    entrenadorProtagonista.intercambiar(listaEntrenadores.get(elegirEntrenador()-1), listaEntrenadores.get(elegirEntrenador()-1).elegirPokemonEquipo(), entrenadorProtagonista.elegirPokemonEquipo());
                 break;
 
                 case 5:
@@ -226,15 +226,16 @@ public class Main {
 
             do {
                 try {
-                    System.out.println("->");
+                    System.out.print("-> ");
                     numEleccion=Byte.parseByte(entrada.nextLine());
                 }catch (Exception e){
                     System.out.println("Error: Opción incorrecta");
                     numEleccion=-1;
                 }
-            }while (numEleccion<1||numEleccion>3);
+                numEleccion--;
+            }while (numEleccion<0||numEleccion>2);
 
-            System.out.println("Has elegido a"+ pokemonIniciales[numEleccion].getNombre()+" como tu inicial, n podrás cambiarlo luego. \n¿Estás seguro?");
+            System.out.println("Has elegido a "+ pokemonIniciales[numEleccion].getNombre()+" como tu inicial, no podrás cambiarlo luego. \n¿Estás seguro?");
 
             System.out.println("1. Sí");
             System.out.println("2. Mostrar más información");
@@ -242,7 +243,7 @@ public class Main {
 
 
             try {
-                System.out.println("->");
+                System.out.print("-> ");
                 menu=Byte.parseByte(entrada.nextLine());
             }catch (Exception e){
                 System.out.println("Error: Opción incorrecta");
@@ -277,7 +278,7 @@ public class Main {
 
     public static void mostrarListaEntrenadores(){
         for (int i = 0; i < listaEntrenadores.size(); i++) {
-            System.out.println((i + 1) + ". " + listaEntrenadores.get(i));
+            System.out.println((i + 1) + ". " + listaEntrenadores.get(i).getNombre());
         }
     }
 
@@ -286,8 +287,9 @@ public class Main {
     public static void cambiarEntrenador(int numero){
 
         Entrenador auxiliar = entrenadorProtagonista;
-        entrenadorProtagonista=listaEntrenadores.get(numero);
-        listaEntrenadores.add(numero, auxiliar);
+        entrenadorProtagonista=listaEntrenadores.get(numero-1);
+        listaEntrenadores.remove(numero-1);
+        listaEntrenadores.add(numero-1, auxiliar);
     }
 
 

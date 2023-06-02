@@ -89,13 +89,19 @@ public class Entrenador {
         mostrarEquipo();
 
         Scanner entrada=new Scanner(System.in);
+
         int numEquipo=-1;
 
         do {
             System.out.println("Elige un pokemon: ");
-            numEquipo= entrada.nextInt();
 
-        }while (numEquipo<=0||numEquipo>=equipo.size());
+            try {
+                numEquipo= entrada.nextInt();
+            }catch (Exception e){
+                numEquipo=-1;
+            }
+
+        }while (numEquipo<0||numEquipo>=equipo.size());
 
         return equipo.get(numEquipo-1);
     }

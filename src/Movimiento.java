@@ -48,8 +48,8 @@ public class Movimiento {
 
     @Override
     public String toString() {
-        return "\n\t\t Nombre: " + nombre  +
-                "Tipo " + tipo +
+        return "\n\t\t" + nombre  +
+                ": Tipo " + tipo +
                 ", PP " + pp +
                 ", Potencia " + potencia +
                 ", Precisión " + precision;

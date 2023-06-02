@@ -188,11 +188,11 @@ public class Pokemon {
 
         String tipo2cadena = (tipo2 == null) ? " " : tipo2.name();
 
-        StringBuilder salida = new StringBuilder("Pokémon: " +
-                " Nombre: " + nombre +
-                " Tipos: " + tipo1.name() + tipo2cadena +
-                " Nivel: " + nivel +
-                " Vida: " + hp +
+        StringBuilder salida = new StringBuilder("Pokémon: "
+                + nombre +
+                " Tipos " + tipo1.name() + tipo2cadena +
+                " Nivel " + nivel +
+                ", Vida: " + hp +
                 " PP: " + pp +
                 " \n\tMovimientos:");
 
