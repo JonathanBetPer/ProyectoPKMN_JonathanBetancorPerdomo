@@ -1,7 +1,7 @@
 /**
  * @author Jonathan Betancor Perdomo
  * @since 11/05/2023
- * @version v0.8
+ * @version v1
  *
  * CLase Pokémon. Criaturas que combaten y cosas así, no sé muy bien como explicarlo
  *
@@ -17,6 +17,8 @@ public class Pokemon {
     private tipos tipo1;
     private tipos tipo2;
     private int nivel;
+
+    private int maxHP;
     private int hp;
     private int pp;
     private final Movimiento[] listaAtaques;
@@ -26,7 +28,8 @@ public class Pokemon {
         this.nombre = nombre;
         this.tipo1 = tipo1;
         this.nivel = nivel;
-        this.hp = hp;
+        this.maxHP = hp;
+        this.hp=this.maxHP;
         this.pp = pp;
         this.listaAtaques = new Movimiento[4];
     }
@@ -63,8 +66,15 @@ public class Pokemon {
         return nivel;
     }
 
+    public void setHp(int hp) {
+        this.hp=hp;
+    }
     public int getHp() {
         return hp;
+    }
+
+    public int getMaxHP() {
+        return maxHP;
     }
 
     public int getPp() {
@@ -180,11 +190,9 @@ public class Pokemon {
         }
     }
 
-    public void setHp(int hp) {
-        this.hp=hp;
+    public void curar(){
+        this.hp=maxHP;
     }
-
-
 
     public void eliminarMovimiento(byte posicionMovimiento){
        listaAtaques[posicionMovimiento]=null;
@@ -200,8 +208,8 @@ public class Pokemon {
                 + nombre +
                 " Tipos " + tipo1.name() + tipo2cadena +
                 " Nivel " + nivel +
-                ", Vida: " + hp +
-                " PP: " + pp +
+                ", Vida: " + hp + " de " + maxHP +
+                ", PP: " + pp +
                 " \n\tMovimientos:");
 
         for (Movimiento ataque:listaAtaques) {

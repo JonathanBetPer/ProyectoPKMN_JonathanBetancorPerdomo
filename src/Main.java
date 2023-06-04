@@ -4,11 +4,9 @@ import java.io.IOException;
 /**
  * @author Jonathan Betancor Perdomo
  * @since 11/05/2023
- * @version v0.8
+ * @version v1
  *
  * Principal. Programa básado en Pokémon. Opciones de captura, combate....
- *
- * // TODO: 02/06/2023 Falta documentar
  *
  */
 
@@ -21,7 +19,7 @@ public class Main {
 
     private static Entrenador entrenadorProtagonista;
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) {
         entrada=new Scanner(System.in);
         allPokemon = iniciadorObjetos();
 
@@ -31,7 +29,10 @@ public class Main {
         menu();
     }
 
-
+    /**
+     * Menú para controlar las múltiples opciones del programa
+     *
+     */
     public static void menu(){
         byte menu;
 
@@ -50,7 +51,7 @@ public class Main {
 
             System.out.print("->\t");
             try {
-                menu=Byte.parseByte(entrada.nextLine());
+                menu=Byte.parseByte(entrada.next());
             }catch (Exception e){
                 menu=-1;
             }
@@ -88,7 +89,7 @@ public class Main {
                 case 8:
                     System.out.println("No se guardará nada ¿Seguro que quieres salir?\n Escriba 'N' para cancelar:\n\t");
                     String comprobacion;
-                    comprobacion=entrada.nextLine().toUpperCase();
+                    comprobacion=entrada.next().toUpperCase();
 
                     if (comprobacion.equals("N")){
                         menu=-0;
@@ -102,6 +103,12 @@ public class Main {
         }while (menu!=8);
     }
 
+
+    /**
+     * Método que inicia todos los objetos (Pokémon, Movimiento, Entrenadores) y los coloca en sus respectivos sitios
+     * Además añade unos Entrenadores predeterminados al ArrayList listaEntrenadores
+     * @return lista con todos los Pokémon
+     */
     public static Pokemon[] iniciadorObjetos(){
         // Pokémon
         Pokemon bulbasaur = new Pokemon(1,"Bulbasaur",tipos.Planta,9, 25, 150);
@@ -198,11 +205,14 @@ public class Main {
     }
 
 
-
+    /**
+     * Inicia el objeto Entrenador con los datos proporcionados por el usuario
+     * @return el entrnador
+     */
     public static Entrenador comenzar(){
 
         System.out.println("Digame su nombre para empezar: ");
-        String nombre=entrada.nextLine();
+        String nombre=entrada.next();
 
         Pokedex pokedex = new Pokedex();
         Entrenador entrenador = new Entrenador(nombre.trim(), pokedex);
@@ -213,6 +223,10 @@ public class Main {
     }
 
 
+    /**
+     * Elige el inicial para un entrenador
+     * @return el pokémon elegido
+     */
 
     public static Pokemon elegirInicial (){
 
@@ -232,7 +246,7 @@ public class Main {
             do {
                 try {
                     System.out.print("-> ");
-                    numEleccion=Byte.parseByte(entrada.nextLine());
+                    numEleccion=Byte.parseByte(entrada.next());
                 }catch (Exception e){
                     System.out.println("Error: Opción incorrecta");
                     numEleccion=-1;
@@ -249,7 +263,7 @@ public class Main {
 
             try {
                 System.out.print("-> ");
-                menu=Byte.parseByte(entrada.nextLine());
+                menu=Byte.parseByte(entrada.next());
             }catch (Exception e){
                 System.out.println("Error: Opción incorrecta");
                 menu=-1;
@@ -268,7 +282,9 @@ public class Main {
     }
 
 
-
+    /**
+     * LLama a los métodos comienzo() y elegirInicial() para crear un nuevo Entrenador seleccionable
+     */
     public static void nuevoEntrenador(){
 
         Entrenador nuevoEntrnador=comenzar();
@@ -280,7 +296,9 @@ public class Main {
     }
 
 
-
+    /**
+     * Muestra la lista de entrenadores actuales
+     */
     public static void mostrarListaEntrenadores(){
         for (int i = 0; i < listaEntrenadores.size(); i++) {
             System.out.println((i + 1) + ". " + listaEntrenadores.get(i).getNombre());
@@ -288,7 +306,9 @@ public class Main {
     }
 
 
-
+    /**
+     * Cambia el entrenador protagonista por uno existente en la lista
+     */
     public static void cambiarEntrenador(int numero){
 
         Entrenador auxiliar = entrenadorProtagonista;
@@ -298,7 +318,10 @@ public class Main {
     }
 
 
-
+    /**
+     * Permite elegir un entrenador de la lista
+     * @return la posición del entrenador en cuestión
+     */
     public static int elegirEntrenador(){
         byte numEntrenador;
         mostrarListaEntrenadores();
@@ -318,6 +341,9 @@ public class Main {
     }
 
 
+    /**
+     * Cura a TODOS los Pokémon
+     */
     public static void curar(){
 
 
@@ -327,21 +353,21 @@ public class Main {
 
         for (int i = 0; i < equipo.length; i++) {
             for (Pokemon e : allPokemon) {
-                if (equipo[i].getNombre().equals(e.getNombre())){
-                    equipo[i].setHp(e.getHp());
+                e.curar();
+            }
+        }
+
+        for (Entrenador e : listaEntrenadores) {
+            equipo = e.getEquipoVector();
+            for (int j = 0; j < equipo.length; j++) {
+                for (Pokemon f : allPokemon) {
+                    f.curar();
                 }
             }
         }
 
-        for (int i = 0; i < listaEntrenadores.size(); i++) {
-            equipo=listaEntrenadores.get(i).getEquipoVector();
-            for (int j = 0; j < equipo.length; j++) {
-                for (Pokemon e : allPokemon) {
-                    if (equipo[i].getNombre().equals(e.getNombre())){
-                        equipo[i].setHp(e.getHp());
-                    }
-                }
-            }
+        for (Pokemon e: allPokemon) {
+            e.curar();
         }
 
 
@@ -350,6 +376,9 @@ public class Main {
 
     }
 
+    /**
+     * Submenú para iniciar un combate
+     */
     public static void nuevoCombate(){
 
         byte combateOpcion, eleccionEntrenador;
@@ -360,7 +389,7 @@ public class Main {
         System.out.print("\t\t-> ");
 
         try {
-            combateOpcion=Byte.parseByte(entrada.nextLine());
+            combateOpcion=Byte.parseByte(entrada.next());
         }catch (Exception e){
             combateOpcion=-1;
         }

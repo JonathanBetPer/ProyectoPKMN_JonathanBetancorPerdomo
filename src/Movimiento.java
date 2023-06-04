@@ -1,7 +1,7 @@
 /**
  * @author Jonathan Betancor Perdomo
  * @since 11/05/2023
- * @version v0.5
+ * @version v1
  *
  * CLase Movimiento. Es un Pokémon son capaces de aprender y que usan en los combates con el fin de debilitar a sus oponentes.
  *

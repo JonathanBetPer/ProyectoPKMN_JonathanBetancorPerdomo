@@ -2,7 +2,7 @@ import java.util.ArrayList;
 /**
  * @author Jonathan Betancor Perdomo
  * @since 15/05/2023
- * @version v0.5
+ * @version v1
  *
  * CLase Pokedex. Contiene información de los Pokémon vistos y atrapados
  *

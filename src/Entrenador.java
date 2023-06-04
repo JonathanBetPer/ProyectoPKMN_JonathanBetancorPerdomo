@@ -4,7 +4,7 @@ import java.util.Scanner;
 /**
  * @author Jonathan Betancor Perdomo
  * @since 15/05/2023
- * @version v0.8
+ * @version v1
  *
  * CLase Entrandor. Tiene asociada una Pokedex y tiene un equipo de Pókemon
  * @// TODO: 11/05/2023 Faltan objetos para currar, atrapar, idk... faltan tantas cosas que me da hasta vergÜenza
